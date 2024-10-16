@@ -1,0 +1,289 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row bg-light full-height dash-row">
+{#            <div class="col-md-6 d-flex align-items-center justify-content-center bg-light">#}
+            <div class="col-md-6 px-4 py-3">
+                <div class="row">
+                    <!-- First card with shadow -->
+                    <div class="card shadow">
+                        <div class="card-header bg-white" style="border-bottom: none;">
+                            <img src="../static/img/air-quality.png" class="img-icon" style="width: 40px; height: 40px" alt="Air quality">
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="row h-100">
+                                <!-- Left side -->
+                                <div class="col-9">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="box">
+                                                <div class="our-services co">
+                                                    <div class="icon">
+                                                        <img src="../static/img/co2.png " class="mb-4" style="width: 60px; height: 60px" alt="CO2">
+                                                    </div>
+                                                    <h4>1000 ppm</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="box">
+                                                <div class="our-services o3">
+                                                    <div class="icon">
+                                                        <img src="../static/img/ozone.png " class="mb-4" style="width: 60px; height: 60px" alt="O3">
+                                                    </div>
+                                                    <h4>1700 ppm</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 item">
+                                            <div class="box">
+                                                <div class="our-services pm">
+                                                    <div class="icon">
+                                                        <img src="../static/img/pm.png " class="mb-4" style="width: 60px; height: 60px" alt="PM2.5">
+                                                    </div>
+                                                    <h4>900 ppm</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="box">
+                                                <div class="our-services no">
+                                                    <div class="icon">
+                                                        <img src="../static/img/no.png " class="mb-4" style="width: 60px; height: 60px" alt="NO2">
+                                                    </div>
+                                                    <h4>2500 ppm</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Right side -->
+                                <div class="col-3 d-flex align-items-center justify-content-center py-4">
+                                    <div class="card shadow h-100 dash-option">
+                                        <div class="card-body align-items-center justify-content-center text-center">
+                                            <h4 class="mb-4">Fan status</h4>
+                                            <img src="../static/img/fan.png " class="mb-4" style="width: 100px; height: 100px" alt="Air quality">
+                                              <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                                              </span>
+                                            <span class="badge bg-danger">Off</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- Second card with shadow -->
+                    <div class="card shadow">
+                        <div class="card-header bg-white" style="border-bottom: none;">
+                            <img src="../static/img/data-visualization.png" class="img-icon" style="width: 40px; height: 40px" alt="Air quality">
+                        </div>
+                        <div class="card-body">
+                            <div class="col d-flex align-items-center justify-content-center">
+                                <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                                <script>
+                                    google.charts.load('current', {'packages':['bar']});
+                                    google.charts.setOnLoadCallback(drawChart);
+
+                                    function drawChart() {
+                                      var data = google.visualization.arrayToDataTable([
+                                        ['Time', 'CO2', 'O3', 'NO2', 'PM2.5'],
+                                        ['10S', 1000, 400, 200, 523],
+                                        ['20S', 1170, 460, 250, 785],
+                                        ['30S', 660, 1120, 300, 52],
+                                        ['40S', 1030, 540, 350, 685],
+                                        ['50S', 1030, 540, 350, 855],
+                                        ['60S', 1030, 540, 350, 566],
+                                      ]);
+
+                                      var options = {
+                                        chart: {
+                                          title: '',
+                                        },
+                                        bars: 'vertical',
+                                        vAxis: {format: 'decimal'},
+                                        height: 300,
+                                        width: 700,
+                                        colors: ['#1b9e77', '#d95f02', '#7570b3', '#7015a3']
+                                      };
+
+                                      var chart = new google.charts.Bar(document.getElementById('chart_div'));
+
+                                      chart.draw(data, google.charts.Bar.convertOptions(options));
+                                    }
+
+                                    const eventSource = new EventSource('/events');
+
+                                    eventSource.onmessage = function(event) {
+                                      document.getElementById('temp').textContent = '' + event.data;
+                                    };
+                                </script>
+                                <div id="chart_div"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deuxième partie (colonne droite) -->
+            <div class="col-md-6 px-4 py-3">
+                <div class="card shadow">
+                    <div class="card-header" style="border-bottom: none;">
+                        <img src="../static/img/database.png" class="img-icon" style="width: 40px; height: 40px" alt="Air quality">
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <a type="button" rel="tooltip" class="btn btn-success btn-sm mb-4">
+                                Add user
+                            </a>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th>User</th>
+                                        <th>Device</th>
+                                        <th>CO2</th>
+                                        <th class="text-center">CO</th>
+                                        <th class="text-center">O3</th>
+                                        <th class="text-center">PM2.5</th>
+                                        <th class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for response in responses %}
+                                    <tr>
+                                        <td class="text-center">{{ response.line }}</td>
+                                        <td>{{ response.user_fullname }}</td>
+                                        <td>{{ response.device }}</td>
+                                        <td>{{ response.co2 }} ppm</td>
+                                        <td class="text-right">{{ response.co }} ppm</td>
+                                        <td class="text-center">{{ response.o3 }} ppm</td>
+                                        <td class="text-right">{{ response.pm }} ppm</td>
+                                        <td class="td-actions text-right">
+                                            <a type="button" rel="tooltip" class="btn btn-info btn-link btn-just-icon btn-sm" data-original-title="" title="">
+                                                <i class="material-icons">storage</i>
+                                            </a>
+                                            <a type="button" rel="tooltip" class="btn btn-success btn-link btn-just-icon btn-sm" data-original-title="" title="">
+                                                <i class="material-icons">edit</i>
+                                            </a>
+                                            <a type="button" rel="tooltip" class="btn btn-danger btn-link btn-just-icon btn-sm" data-original-title="" title="">
+                                                <i class="material-icons">close</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+{#                                    <tr>#}
+{#                                        <td class="text-center">1</td>#}
+{#                                        <td>Andrew Mike</td>#}
+{#                                        <td>Develop</td>#}
+{#                                        <td>1005 ppm</td>#}
+{#                                        <td class="text-right">1525 ppm</td>#}
+{#                                        <td class="text-center">952 ppm</td>#}
+{#                                        <td class="text-right">1500ppm</td>#}
+{#                                        <td class="td-actions text-right">#}
+{#                                            <a type="button" rel="tooltip" class="btn btn-info btn-link btn-just-icon btn-sm" data-original-title="" title="">#}
+{#                                                <i class="material-icons">storage</i>#}
+{#                                            </a>#}
+{#                                            <a type="button" rel="tooltip" class="btn btn-success btn-link btn-just-icon btn-sm" data-original-title="" title="">#}
+{#                                                <i class="material-icons">edit</i>#}
+{#                                            </a>#}
+{#                                            <a type="button" rel="tooltip" class="btn btn-danger btn-link btn-just-icon btn-sm" data-original-title="" title="">#}
+{#                                                <i class="material-icons">close</i>#}
+{#                                            </a>#}
+{#                                        </td>#}
+{#                                    </tr>#}
+{#                                    <tr>#}
+{#                                        <td class="text-center">2</td>#}
+{#                                        <td>Andrew Mike</td>#}
+{#                                        <td>Develop</td>#}
+{#                                        <td>1005 ppm</td>#}
+{#                                        <td class="text-right">1525 ppm</td>#}
+{#                                        <td class="text-center">952 ppm</td>#}
+{#                                        <td class="text-right">1500ppm</td>#}
+{#                                        <td class="td-actions text-right">#}
+{#                                            <a type="button" rel="tooltip" class="btn btn-info btn-link btn-just-icon btn-sm" data-original-title="" title="">#}
+{#                                                <i class="material-icons">storage</i>#}
+{#                                            </a>#}
+{#                                            <a type="button" rel="tooltip" class="btn btn-success btn-link btn-just-icon btn-sm" data-original-title="" title="">#}
+{#                                                <i class="material-icons">edit</i>#}
+{#                                            </a>#}
+{#                                            <a type="button" rel="tooltip" class="btn btn-danger btn-link btn-just-icon btn-sm" data-original-title="" title="">#}
+{#                                                <i class="material-icons">close</i>#}
+{#                                            </a>#}
+{#                                        </td>#}
+{#                                    </tr>#}
+{#                                    <tr>#}
+{#                                        <td class="text-center">3</td>#}
+{#                                        <td>Andrew Mike</td>#}
+{#                                        <td>Develop</td>#}
+{#                                        <td>1005 ppm</td>#}
+{#                                        <td class="text-right">1525 ppm</td>#}
+{#                                        <td class="text-center">952 ppm</td>#}
+{#                                        <td class="text-right">1500ppm</td>#}
+{#                                        <td class="td-actions text-right">#}
+{#                                            <a type="button" rel="tooltip" class="btn btn-info btn-link btn-just-icon btn-sm" data-original-title="" title="">#}
+{#                                                <i class="material-icons">storage</i>#}
+{#                                            </a>#}
+{#                                            <a type="button" rel="tooltip" class="btn btn-success btn-link btn-just-icon btn-sm" data-original-title="" title="">#}
+{#                                                <i class="material-icons">edit</i>#}
+{#                                            </a>#}
+{#                                            <a type="button" rel="tooltip" class="btn btn-danger btn-link btn-just-icon btn-sm" data-original-title="" title="">#}
+{#                                                <i class="material-icons">close</i>#}
+{#                                            </a>#}
+{#                                        </td>#}
+{#                                    </tr>#}
+{#                                    <tr>#}
+{#                                        <td class="text-center">4</td>#}
+{#                                        <td>Andrew Mike</td>#}
+{#                                        <td>Develop</td>#}
+{#                                        <td>1005 ppm</td>#}
+{#                                        <td class="text-right">1525 ppm</td>#}
+{#                                        <td class="text-center">952 ppm</td>#}
+{#                                        <td class="text-right">1500ppm</td>#}
+{#                                        <td class="td-actions text-right">#}
+{#                                            <a type="button" rel="tooltip" class="btn btn-info btn-link btn-just-icon btn-sm" data-original-title="" title="">#}
+{#                                                <i class="material-icons">storage</i>#}
+{#                                            </a>#}
+{#                                            <a type="button" rel="tooltip" class="btn btn-success btn-link btn-just-icon btn-sm" data-original-title="" title="">#}
+{#                                                <i class="material-icons">edit</i>#}
+{#                                            </a>#}
+{#                                            <a type="button" rel="tooltip" class="btn btn-danger btn-link btn-just-icon btn-sm" data-original-title="" title="">#}
+{#                                                <i class="material-icons">close</i>#}
+{#                                            </a>#}
+{#                                        </td>#}
+{#                                    </tr>#}
+{#                                    <tr>#}
+{#                                        <td class="text-center">5</td>#}
+{#                                        <td>Andrew Mike</td>#}
+{#                                        <td>Develop</td>#}
+{#                                        <td>1005 ppm</td>#}
+{#                                        <td class="text-right">1525 ppm</td>#}
+{#                                        <td class="text-center">952 ppm</td>#}
+{#                                        <td class="text-right">1500ppm</td>#}
+{#                                        <td class="td-actions text-right">#}
+{#                                            <a type="button" rel="tooltip" class="btn btn-info btn-link btn-just-icon btn-sm" data-original-title="" title="">#}
+{#                                                <i class="material-icons">storage</i>#}
+{#                                            </a>#}
+{#                                            <a type="button" rel="tooltip" class="btn btn-success btn-link btn-just-icon btn-sm" data-original-title="" title="">#}
+{#                                                <i class="material-icons">edit</i>#}
+{#                                            </a>#}
+{#                                            <a type="button" rel="tooltip" class="btn btn-danger btn-link btn-just-icon btn-sm" data-original-title="" title="">#}
+{#                                                <i class="material-icons">close</i>#}
+{#                                            </a>#}
+{#                                        </td>#}
+{#                                    </tr>#}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

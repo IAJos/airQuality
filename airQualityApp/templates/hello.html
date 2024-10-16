@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Hello Django !</h1>
+
+<p>Mes groupes préférés sont :</p>
+
+<ul>
+
+    <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6 col-xl-3 mb-4">
+        <div class="card shadow">
+          <div class="card-body">
+            <div class="row text-center">
+              <div class="col ultrasonic-txt">
+                <p class="h5 p-2">
+                  <strong>
+                    <u>ANALOG ULTRASONIC SENSORS</u>
+                  </strong>
+                </p>
+                <p class="h5"><i class="fa-solid fa-ruler"></i> DISTANCE</p>
+                <span class="h1">28.51 Cm</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3 mb-4">
+        <div class="card shadow">
+          <div class="card-body">
+            <div class="row text-center">
+              <div class="col sound-txt">
+                <p class="h5 p-2">
+                  <strong>
+                    <u>ANALOG SOUND SENSORS</u>
+                  </strong>
+                </p>
+                <p class="h5"><i class="fa-solid fa-ear-listen"></i> SOUND</p>
+                <span class="h1">59.44</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3 mb-4">
+        <div class="card shadow">
+          <div class="card-body">
+            <div class="row text-center">
+              <div class="col heart-rate-txt">
+                <p class="h5 p-2">
+                  <strong>
+                    <u>DIGITAL HEART RATE SENSORS</u>
+                  </strong>
+                </p>
+                <p class="h5"><i class="fa-solid fa-heart-pulse"></i> HEART RATE</p>
+                <span class="h1">10 PPG</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3 mb-4">
+        <div class="card shadow">
+          <div class="card-body">
+            <div class="row text-center">
+              <div class="col touch-txt">
+                <p class="h5 p-2">
+                  <strong>
+                    <u>DIGITAL TOUCH SENSORS</u>
+                  </strong>
+                </p>
+                <p class="h5"><i class="fa-solid fa-fingerprint"></i> FINGERPRINT</p>
+                <span class="h1">Detected</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{#    {% for band in bands %}#}
+{#        <li>#}
+{#            {{ band.name }}#}
+{#        </li>#}
+{#    {% endfor %}#}
+</ul>
+
+{% endblock %}
