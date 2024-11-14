@@ -1,0 +1,456 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid dashboard-container">
+    <div class="row bg-light h-100">
+        <div class="col-md-3">
+            <div class="row h-100 ml-2 mt-2">
+                <!-- First card with shadow -->
+                <div class="card shadow">
+                    <div class="card-header bg-white">
+                        <img src="https://cdn-icons-png.flaticon.com/128/3135/3135715.png" style="width: 40px; height: 40px" alt="Air quality">
+                        <span class="dashboard-title">User Account</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 mb-4 d-flex align-items-end justify-content-end">
+                                <button class="btn btn-primary bg-primary text-white btn-around" data-bs-toggle="modal" data-bs-target="#exampleModal">Add</button>
+                            </div>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content rounded-4 shadow">
+                                        <div class="modal-header p-5 pb-4 border-bottom-0">
+                                          <h1 class="fw-bold mb-0 fs-3 text-center">New User</h1>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+
+                                        <div class="modal-body p-5 pt-0">
+                                          <form id="userForm" method="post">
+                                            {% csrf_token %}
+
+                                            <div class="form-floating mb-3">
+                                              <input type="text" required class="form-control rounded-3" name="fullname" id="fullname" placeholder="Fullname">
+                                              <label for="fullname">Fullname</label>
+                                            </div>
+
+                                            <div class="form-floating mb-3">
+                                              <input type="email" required class="form-control rounded-3" name="email" id="email" placeholder="Email">
+                                              <label for="email">Email</label>
+                                            </div>
+
+{#                                            <div class="form-floating mb-3">#}
+{#                                              <input type="text" required class="form-control rounded-3" name="username" id="username" placeholder="username">#}
+{#                                              <label for="username">Fullname</label>#}
+{#                                            </div>#}
+
+                                            <div class="form-floating mb-3">
+                                              <input type="tel" required class="form-control rounded-3" name="phone_number" id="phone_number" placeholder="Phone number">
+                                              <label for="phone_number">Phone number</label>
+                                            </div>
+
+                                            <div class="form-floating mb-3">
+                                              <input type="password" required class="form-control rounded-3" name="password" id="password">
+                                              <label for="password">Password</label>
+                                            </div>
+
+                                            <button class="w-100 mb-2 btn btn-success rounded-3 btn-primary" type="submit">Create</button>
+
+                                          </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <table class="table">
+                                    <tbody>
+                                        {% for user in users %}
+                                            <tr>
+                                                <td class="p-0 m-0">
+                                                    <img src="https://cdn-icons-png.flaticon.com/128/847/847969.png" alt="" style="width: 30px; height: 30px">
+                                                </td>
+                                                <td class="text-start">{{ user.id }} {{ user.fullname }}</td>
+                                                <td class="td-actions text-right">
+                                                    <a type="button" class="btn btn-info btn-link btn-just-icon btn-sm getDevicesBtn" data-user-id="{{ user.id }}">
+                                                        <i class="material-icons">visibility</i>
+                                                    </a>
+                                                    <a type="button" class="btn btn-success btn-link btn-just-icon btn-sm" >
+                                                        <i class="material-icons">edit</i>
+                                                    </a>
+                                                    <a type="button" class="btn btn-danger btn-link btn-just-icon btn-sm" >
+                                                        <i class="material-icons">close</i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Deuxième partie (colonne droite) -->
+        <div class="col-md-9 dashboard-chart">
+            <div class="row h-100 mt-2 pl-2 mr-2">
+                <div class="card shadow">
+                    <div class="card-header bg-white">
+                        <img src="https://cdn-icons-png.flaticon.com/128/138/138928.png" class="img-icon" style="width: 40px; height: 40px" alt="Air quality">
+                        <span class="dashboard-title">Data from database</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 mb-4 d-flex align-items-center justify-content-center">
+                                {% comment %}<div class="btn-group mr-2">
+                                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Devices
+                                    </button>
+                                    <ul >
+                                        <li><a class="dropdown-item" href="#">Action</a></li>
+                                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    </ul>
+                                </div>{% endcomment %}
+                                <label for="devices">Sélectionnez un device :</label>
+                                <select class="p-2 ml-2" name="" id="devicesDropdown" style="border-radius: 5px; width: 200px">
+                                    <option value="">-- Choice --</option>
+                                    <option value="">Action</option>
+                                    <option value="">Another action</option>
+                                    <option value="">Something else here</option>
+                                </select>
+                                <button class="btn btn-primary bg-primary text-white ml-2" data-bs-toggle="modal" data-bs-target="#exampleModalDevice">Add</button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModalDevice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content rounded-4 shadow">
+                                            <div class="modal-header p-5 pb-4 border-bottom-0">
+                                              <h1 class="fw-bold mb-0 fs-3 text-center">New Device</h1>
+                                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+
+                                            <div class="modal-body p-5 pt-0">
+                                              <form id="deviceForm" method="post">
+                                                {% csrf_token %}
+
+                                                <div class="form-floating mb-3">
+                                                  <input type="text" required class="form-control rounded-3" name="name" id="name" placeholder="Name">
+                                                  <label for="name">Name</label>
+                                                </div>
+
+                                                <div class="form-floating mb-3">
+                                                  <input type="text" required class="form-control rounded-3" name="serial_number" id="serial_number" placeholder="Serial number">
+                                                  <label for="serial_number">Serial number</label>
+                                                </div>
+
+                                                <button class="w-100 mb-2 btn btn-success rounded-3 btn-primary" type="submit">Create</button>
+
+                                              </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="row pb-1">
+                                    <div class="col-mb-12 d-flex align-items-center justify-content-center">
+                                        <div class="content-info">
+                                            <table class="table-striped table-responsive table-hover result-point" id="data" style="height: 600px;  overflow-y: auto; border: 1px solid #ccc; width: 100%; display: block">
+                                               <thead class="point-table-head">
+                                                  <tr>
+                                                     <th class="text-left">Datetime</th>
+                                                     <th class="text-left">CO2</th>
+                                                     <th class="text-center">CO</th>
+                                                     <th class="text-center">NO2</th>
+                                                     <th class="text-center">O3</th>
+                                                     <th class="text-center">PM2.5</th>
+                                                     <th class="text-center">Temperature</th>
+{#                                                     <th class="text-center">Mean_Temperature</th>#}
+                                                   {% comment %}  <th class="text-left">CO2_mean</th>
+                                                     <th class="text-center">CO_mean</th>
+                                                     <th class="text-center">NO2_mean</th>
+                                                     <th class="text-center">O3_mean</th>
+                                                     <th class="text-center">PM2.5_mean</th>{% endcomment %}
+                                                  </tr>
+                                               </thead>
+                                               <tbody class="text-center" >
+                                                    {% comment %}<tr>
+                                                        <td>9545</td>
+                                                        <td>9545</td>
+                                                        <td>9545</td>
+                                                        <td>9545</td>
+                                                        <td>9545</td>
+                                                        <td>9545</td>
+                                                    </tr>{% endcomment %}
+                                               </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById('userForm').addEventListener('submit', async function(event) {
+        event.preventDefault(); // Empêche le rechargement de la page
+
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            {#const response = await fetch('http://192.168.2.23:8001/api/users/', {#}
+            const response = await fetch('http://192.168.20.139:8001/api/users/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',  // Inclure le CSRF token si nécessaire
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erreur ${response.status}: ${response.statusText}`);
+            }
+            const result = await response.json();
+            console.log("Données enregistrées avec succès!");
+        } catch (error) {
+            console.error("Erreur:", error);
+            console.log("Erreur lors de l'enregistrement des données.");
+        }
+    });
+
+    document.getElementById('deviceForm').addEventListener('submit', async function(event) {
+        event.preventDefault(); // Empêche le rechargement de la page
+
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            {#const response = await fetch('http://192.168.2.23:8001/api/devices/', {#}
+            const response = await fetch('http://192.168.20.139:8001/api/devices/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',  // Inclure le CSRF token si nécessaire
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erreur ${response.status}: ${response.statusText}`);
+            }
+            const result = await response.json();
+            console.log("Données enregistrées avec succès!");
+        } catch (error) {
+            console.error("Erreur:", error);
+            console.log("Erreur lors de l'enregistrement des données.");
+        }
+    });
+
+    document.querySelectorAll('.getDevicesBtn').forEach(button => {
+            button.addEventListener('click', function () {
+                const userId = this.getAttribute('data-user-id');
+                const devicesDropdown = document.getElementById('devicesDropdown');
+                devicesDropdown.innerHTML = '<option value="">-- Choice --</option>';
+
+                fetch(`/get_devices_by_user/${userId}/`)
+                    .then(response => response.json())
+                    .then(devices => {
+                        devices.forEach(device => {
+                            const option = document.createElement('option');
+                            option.value = device.name;  // Assurez-vous que 'device.id' est inclus dans votre JSON
+                            option.textContent = device.name;
+                            devicesDropdown.appendChild(option);
+                        });
+                    });
+
+                devicesDropdown.addEventListener("change", function() {
+                    const deviceId = devicesDropdown.value;
+                    fetch(`/get_data_by_device/${deviceId}/`)
+                        .then(response => response.json())
+                        .then(dataEntries => {
+                            const tableBody = document.querySelector('#data tbody');
+                            tableBody.innerHTML = ""; // Réinitialise le tableau
+                            dataEntries.forEach(data => {
+                               {% comment %} const row = document.createElement("tr");
+                                row.innerHTML = `<td>${data.co2}</td><td>${data.co}</td>`;
+                                dataTableBody.appendChild(row);
+                                {% endcomment %}
+                                const row = document.createElement('tr');
+
+                                const dateObj = new Date(data.created_at)
+
+                                const year = dateObj.getFullYear();
+                                const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // Mois (commence à 0)
+                                const day = String(dateObj.getDate()).padStart(2, '0');
+
+                                const hours = String(dateObj.getHours()).padStart(2, '0');
+                                const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+                                const seconds = String(dateObj.getSeconds()).padStart(2, '0');
+
+                                const created_at = document.createElement('td');
+                                created_at.textContent = `${year}/${month}/${day} - ${hours}:${minutes}:${seconds}`;
+                                row.appendChild(created_at);
+
+                                const CO2 = document.createElement('td');
+                                CO2.textContent = data.quantityCO2;
+                                row.appendChild(CO2);
+
+                                const CO = document.createElement('td');
+                                CO.textContent = data.quantityCO;
+                                row.appendChild(CO);
+
+                                const NO2 = document.createElement('td');
+                                NO2.textContent = data.quantityNO2;
+                                row.appendChild(NO2);
+
+                                const O3 = document.createElement('td');
+                                O3.textContent = data.quantityO3;
+                                row.appendChild(O3);
+
+                                const fine_particle = document.createElement('td');
+                                fine_particle.textContent = data.fine_particle;
+                                row.appendChild(fine_particle);
+
+                                const temperature = document.createElement('td');
+                                temperature.textContent = data.temperature;
+                                row.appendChild(temperature);
+
+                                {#const m_temperature = document.createElement('td');#}
+                                {#m_temperature.textContent = data.temperature;#}
+                                {#row.appendChild(m_temperature);#}
+
+                                tableBody.appendChild(row);
+                            });
+                        });
+                });
+            });
+        });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const userDropdown = document.getElementById("userDropdown");
+        const deviceDropdown = document.getElementById("deviceDropdown");
+        const dataTableBody = document.getElementById("dataTable").querySelector("tbody");
+
+
+
+        {% comment %}// Sur la sélection de l'utilisateur, met à jour le dropdown des appareils
+        userDropdown.addEventListener("change", function() {
+            const userId = userDropdown.value;
+            fetch(`/get_devices_by_user/${userId}/`)
+                .then(response => response.json())
+                .then(devices => {
+                    deviceDropdown.innerHTML = '<option selected disabled>Choisissez un appareil</option>';
+                    devices.forEach(device => {
+                        const option = document.createElement("option");
+                        option.value = device.id;
+                        option.textContent = device.name;
+                        deviceDropdown.appendChild(option);
+                    });
+                });
+        });{% endcomment %}
+
+        // Sur la sélection de l'appareil, met à jour le tableau des données
+
+    });
+
+
+    {% comment %}function readingData(){
+        let data
+
+        let valueDate = [];
+
+        fetch('http://192.168.2.23:8001/api/data/')
+        {#fetch('http://192.168.20.139:8001/api/data/')#}
+            .then(response => response.json())//Parse the json response
+            .then(data => {
+                valueDate;
+                console.log(valueDate);
+            }).catch(error => console.error('Error fetching sensor data: ', error));
+
+        document.addEventListener("DOMContentLoaded", function() {
+                const apiUrl = "http://localhost:8000/api/users/";
+
+                // Récupération des données de l'API
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        const dropdown = document.getElementById("userDropdown");
+
+                        data.forEach(user => {
+                            // Créez une nouvelle option pour chaque utilisateur
+                            const option = document.createElement("option");
+                            option.value = user.id; // Assurez-vous d'utiliser l'ID ou autre identifiant unique
+                            option.textContent = user.name; // Affichez le nom dans le dropdown
+
+                            dropdown.appendChild(option); // Ajoutez l'option au dropdown
+                        });
+                    })
+                    .catch(error => console.error("Erreur lors de la récupération des utilisateurs :", error));
+            });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('http://192.168.2.23:8001/api/data/')
+            {#fetch('http://192.168.2.23:8001/api/data/')#}
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.querySelector('#data tbody');
+
+                    data.forEach(entry => {
+                        const row = document.createElement('tr');
+
+                        const dateObj = new Date(entry.created_at)
+
+                        const year = dateObj.getFullYear();
+                        const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // Mois (commence à 0)
+                        const day = String(dateObj.getDate()).padStart(2, '0');
+
+                        const hours = String(dateObj.getHours()).padStart(2, '0');
+                        const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+                        const seconds = String(dateObj.getSeconds()).padStart(2, '0');
+
+                        const created_at = document.createElement('td');
+                        {#created_at.textContent = entry.created_at;#}
+                        created_at.textContent = `${year}/${month}/${day} - ${hours}:${minutes}:${seconds}`;
+                        row.appendChild(created_at);
+
+                        const CO2 = document.createElement('td');
+                        CO2.textContent = entry.quantityCO2;
+                        row.appendChild(CO2);
+
+                        const CO = document.createElement('td');
+                        CO.textContent = entry.quantityCO;
+                        row.appendChild(CO);
+
+                        const NO2 = document.createElement('td');
+                        NO2.textContent = entry.quantityNO2;
+                        row.appendChild(NO2);
+
+                        const O3 = document.createElement('td');
+                        O3.textContent = entry.quantityO3;
+                        row.appendChild(O3);
+
+                        const temperature = document.createElement('td');
+                        temperature.textContent = entry.temperature;
+                        row.appendChild(temperature);
+
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Erreur:', error));
+        });
+  }
+  readingData();
+  setInterval(readingData, 5000);{% endcomment %}
+</script>
+{% endblock %}

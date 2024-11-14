@@ -1,0 +1,278 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container-fluid dashboard-container">
+        <div class="row bg-light h-100">
+            <div class="col-md-3">
+                <div class="row h-100 ml-2 mt-2">
+                    <!-- First card with shadow -->
+                    <div class="card shadow">
+                        <div class="card-header bg-white">
+                            <img src="https://cdn-icons-png.flaticon.com/128/8448/8448706.png" style="width: 40px; height: 40px" alt="Air quality">
+                            <span class="dashboard-title">Realtime data from the sensor</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row mb-4">
+                                        <div class="col-md-6">
+                                            <div class="box">
+                                                <div class="our-services carbon-dioxide">
+                                                    <div class="icon">
+                                                        <img src="https://cdn-icons-png.flaticon.com/128/9417/9417166.png" class="mb-4" alt="CO2">
+                                                    </div>
+                                                    <span>Carbon dioxide</span><br>
+                                                    <span class="data-value carbon-dioxide">
+                                                        <strong id="co2">100 ppm</strong>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="box">
+                                                <div class="our-services ozone">
+                                                    <div class="icon">
+                                                        <img src="https://cdn-icons-png.flaticon.com/128/13873/13873522.png" class="mb-4" alt="O3">
+                                                    </div>
+                                                    <span>Ozone</span><br>
+                                                    <span class="data-value ozone">
+                                                        <strong id="o3">1700 ppm</strong>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row my-4">
+                                        <div class="col-md-6">
+                                            <div class="box">
+                                                <div class="our-services carbon-monoxide">
+                                                    <div class="icon">
+                                                        <img src="https://cdn-icons-png.flaticon.com/128/4206/4206930.png" class="mb-4" alt="NO2">
+                                                    </div>
+                                                    <span>Carbon monoxide</span><br>
+                                                    <span class="data-value carbon-monoxide">
+                                                        <strong id="co">2500 ppm</strong>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 item">
+                                            <div class="box">
+                                                <div class="our-services fine-particle">
+                                                    <div class="icon">
+                                                        <img src="https://cdn-icons-png.flaticon.com/128/15194/15194439.png" class="mb-4" alt="PM2.5">
+                                                    </div>
+                                                    <span>Fine particle</span><br>
+                                                    <span class="data-value fine-particle">
+                                                        <strong id="pm">900 ppm</strong>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4">
+                                        <div class="col-md-12 mt-4 d-flex align-items-center justify-content-center">
+                                            <div class="card shadow">
+                                                <div class="card-body align-items-center justify-content-center text-center">
+                                                    <span class="">Fan status</span><br>
+                                                    <img src="https://cdn-icons-png.flaticon.com/128/11426/11426858.png" class="mb-4" style="width: 100px; height: 100px" alt="Air quality">
+                                                    <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                                                    </span> <br>
+                                                    <button type="button" class="btn btn-success bg-success text-white">On</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deuxième partie (colonne droite) -->
+            <div class="col-md-9 dashboard-chart">
+                <div class="row h-100 mt-2 pl-2 mr-2">
+                    <div class="card shadow">
+                        <div class="card-header bg-white">
+                            <img src="https://cdn-icons-png.flaticon.com/128/11232/11232253.png" class="img-icon" style="width: 40px; height: 40px" alt="Air quality">
+                            <span class="dashboard-title">Realtime data chart</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row pb-1">
+                                        <div class="col-mb-12 d-flex align-items-center justify-content-centerd-flex align-items-center justify-content-center">
+                                            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                                            <script>
+                                                google.charts.load('current', {'packages':['bar']});
+                                                google.charts.setOnLoadCallback(drawChart);
+
+                                                let data = [];
+
+                                                function readingData(){
+                                                    let firstTenValues = [];
+                                                    let chartData = [['Time', 'CO2', 'O3', 'CO']];
+
+                                                    fetch('http://192.168.2.23:8001/api/data/')
+                                                        .then(response => response.json())//Parse the json response
+                                                        .then(data => {
+                                                            console.log("data.first() ssssssssssssssssssssssssssssssss")
+                                                            console.log(data.slice(0, 10))
+
+                                                            {% comment %}console.log("data.first() sffffffffffffffffffffffffffffffff")
+                                                            data.slice(0, 10).forEach((item, index) => {
+                                                              console.log(`Élément ${index + 1}:`, item.created_at);
+                                                            });{% endcomment %}
+
+                                                            {#console.log("10 dataaaaaaaaaaaaaaaaaaaaaaaaaaaaa")#}
+                                                            {#console.log(data.slice(0, 10))#}
+
+                                                            firstTenValues = data.slice(0, 10).map(item => [
+                                                                item.created_at,
+                                                                item.quantityCO2,
+                                                                item.quantityNO2,
+                                                                item.quantityCO,
+                                                            ]);
+
+                                                            firstTenValues.forEach((values, index) => {
+                                                                const timeLabel = `${(index + 1) * 10}S`; // "10S", "20S", "30S", etc.
+                                                                chartData.push([timeLabel, values[1], values[2], values[3]]); // Assurez-vous que l'ordre correspond à votre besoin
+                                                            });
+                                                            console.log(chartData);
+                                                            data = chartData;
+
+                                                        }).catch(error => console.error('Error fetching sensor data: ', error));
+                                                  }
+                                                  readingData();
+                                                  setInterval(readingData, 5000);
+
+                                                function drawChart() {
+
+                                                  {#var data = google.visualization.arrayToDataTable(chartData);#}
+
+                                                    let d = [
+                                                    ['Time', 'CO2', 'O3', 'CO'],
+                                                    ['10S', 1000.24, 400.85, 200.22],
+                                                    ['20S', 1170.5, 460.1, 250.1],
+                                                    ['30S', 660, 1120, 300],
+                                                    ['40S', 1030, 540, 350],
+                                                    ['50S', 1030, 540, 350],
+                                                    ['60S', 1030, 540, 350],
+                                                    ['70S', 1030, 540, 350],
+                                                    ['80S', 1030, 540, 350],
+                                                    ['90S', 1030, 540, 350],
+                                                  ];
+
+                                                  var data = google.visualization.arrayToDataTable(d);
+
+                                                  console.log("Chart data")
+                                                  console.log(data)
+                                                  console.log(d)
+
+                                                  var options = {
+                                                    chart: {
+                                                      title: 'Gas',
+                                                    },
+                                                    bars: 'vertical',
+                                                    vAxis: {format: 'decimal'},
+                                                    height: 365,
+                                                    colors: ['#5ce1a5', '#1aadff', '#3e3ef4']
+                                                  };
+
+                                                  var chart = new google.charts.Bar(document.getElementById('chart_div'));
+
+                                                  chart.draw(data, google.charts.Bar.convertOptions(options));
+                                                }
+
+                                                const eventSource = new EventSource('/events');
+
+                                                eventSource.onmessage = function(event) {
+                                                  document.getElementById('temp').textContent = '' + event.data;
+                                                };
+
+                                            </script>
+                                            <div class="col-md-12">
+                                                <div id="chart_div" style="width: 100%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row pt-1">
+                                        <div class="col-mb-12 d-flex align-items-center justify-content-center">
+                                            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                                            <script>
+                                                google.charts.load('current', {'packages':['line']});
+                                                google.charts.setOnLoadCallback(drawChart);
+
+                                                function drawChart() {
+
+                                                  var data = new google.visualization.DataTable();
+                                                  data.addColumn('number', 'Day');
+                                                  data.addColumn('number', 'PM 2.5');
+
+                                                  data.addRows([
+                                                    [1,  37.8],
+                                                    [2,  30.9],
+                                                    [3,  25.4],
+                                                    [4,  11.7],
+                                                    [5,  11.9],
+                                                    [6,   8.8],
+                                                    [7,   7.6],
+                                                    [8,  12.3],
+                                                    [9,  16.9],
+                                                    [10, 12.8],
+                                                    [11,  5.3],
+                                                    [12,  6.6],
+                                                    [13,  4.8],
+                                                    [14,  4.2]
+                                                  ]);
+
+                                                  var options = {
+                                                    chart: {
+                                                      title: 'Fine particle',
+                                                    },
+                                                    height: 400,
+                                                    colors: ['#808eaf']
+                                                  };
+
+                                                  var chart = new google.charts.Line(document.getElementById('linechart_material'));
+
+                                                  chart.draw(data, google.charts.Line.convertOptions(options));
+                                                }
+                                            </script>
+                                            <div class="col-md-12">
+                                                <div id="linechart_material"  style="width: 100%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function (){
+          function readingData(){
+            {#fetch('http://192.168.2.23:8001/api/data/')#}
+            fetch('http://192.168.20.139:8001/api/data/')
+                .then(response => response.json())//Parse the json response
+                .then(data => {
+                  document.getElementById('co2').innerHTML = `${data[0].quantityCO2} ppm`;
+                  document.getElementById('o3').innerHTML = `${data[0].quantityO3} ppm`;
+                  document.getElementById('co').innerHTML = `${data[0].quantityCO} ppm`;
+                  document.getElementById('pm').innerHTML = `${data[0].fine_particle} ppm`;
+                }).catch(error => console.error('Error fetching sensor data: ', error));
+          }
+          readingData();
+          setInterval(readingData, 5000);
+        })
+
+    </script>
+
+{% endblock %}
