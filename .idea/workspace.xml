@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="6c2956c3-441c-470c-b462-cadc07a6c679" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/Project_Solution.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/airQuality/airQualityApp/templates/data.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/airQuality/airQualityApp/templates/no_found.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/airQuality/airQuality/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/airQuality/airQuality/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/airQuality/airQuality/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/airQuality/airQuality/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/airQuality/airQualityApp/migrations/0001_initial.py" beforeDir="false" />
@@ -100,7 +96,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1731585967754</updated>
-      <workItem from="1731585969212" duration="333000" />
+      <workItem from="1731585969212" duration="573000" />
     </task>
     <servers />
   </component>
